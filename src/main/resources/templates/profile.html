@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.tymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="fragments/fragments::defaulthead">
+    <meta charset="UTF-8"/>
+    <title>Edit profile</title>
+</head>
+
+<body>
+<form th:action="@{/profile}" th:object="${currentuser}" method="post">
+
+    <h1>Edit Profile details</h1>
+
+    <input type="hidden" th:field="*{id}">
+    <input type="hidden" th:field="*{username}">
+    <input type="hidden" th:field="*{password}">
+
+    <h3 th:text="${username}">Username</h3>
+
+    <label for="username">Username</label>
+    <input type="text" class="form-control" th:field="*{firstName}">
+
+    <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+    <label for="lastName">Last Name</label>
+    <input type="text" class="form-control" th:field="*{lastName}">
+
+
+    <input type="submit" value="Add">
+    <span th:replace="fragments/fragments::bootstrap4js"></span>
+</form>
+</body>
+</html>

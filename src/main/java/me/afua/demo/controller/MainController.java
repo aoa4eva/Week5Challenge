@@ -1,8 +1,6 @@
 package me.afua.demo.controller;
 
-import me.afua.demo.model.AppRoleRepository;
-import me.afua.demo.model.AppUser;
-import me.afua.demo.model.AppUserRepository;
+import me.afua.demo.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,11 +20,16 @@ public class MainController {
     @Autowired
     AppUserRepository userRepository;
 
+    @Autowired
+    SkillRepository skillRepository;
+
+    @Autowired
+    EducationRepository educationRepository;
 
     @RequestMapping("/")
     public @ResponseBody String showIndex()
     {
-        return "Successfully logged in <a href='/roles'>Roles</a>";
+        return "Default home page <a href='/login'>Log in</a>";
     }
 
     @RequestMapping("/loggedin")
@@ -61,5 +64,72 @@ public class MainController {
         return "redirect:/";
     }
 
+    @GetMapping("/profile")
+    public String showProfile(Model model, Authentication authentication)
+    {
+        model.addAttribute("currentuser",userRepository.findAppUserByUsername(authentication.getName()));
+        return "profile";
+    }
 
+    @PostMapping("/profile")
+    public String saveProfile(@Valid @ModelAttribute("currentuser") AppUser user, BindingResult result)
+    {
+        if(result.hasErrors())
+        {
+            return "profile";
+        }
+        userRepository.save(user);
+        return "redirect:/";
+    }
+
+    //Replicate the profile code for Skill
+    @GetMapping("/skill")
+    public String addSkill(Model model)
+    {
+        model.addAttribute("aSkill",new Skill());
+        return "addskill";
+    }
+
+    @PostMapping("/skill")
+    public String saveSkill(@Valid @ModelAttribute("aSkill") Skill skill, BindingResult result)
+    {
+        if(result.hasErrors())
+        {
+            return "addskill";
+        }
+        skillRepository.save(skill);
+        return "redirect:/";
+    }
+
+    @GetMapping("/listskills")
+    public @ResponseBody String listSkills()
+    {
+        return skillRepository.findAll().toString();
+    }
+
+    //Replicate the profile code for Skill
+    @GetMapping("/education")
+    public String addEducation(Model model)
+    {
+        model.addAttribute("educationItem",new Education());
+        return "addeducation";
+    }
+
+    //Reproduce the Skill code for education
+    @PostMapping("/education")
+    public String saveEducation(@Valid @ModelAttribute("aSkill") Education education, BindingResult result)
+    {
+        if(result.hasErrors())
+        {
+            return "addeducation";
+        }
+        educationRepository.save(education);
+        return "redirect:/";
+    }
+
+    @GetMapping("/listeducation")
+    public @ResponseBody String listEducation()
+    {
+        return educationRepository.findAll().toString();
+    }
 }

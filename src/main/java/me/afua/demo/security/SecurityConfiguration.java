@@ -39,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("user").password("password").authorities("USER");
+        auth.inMemoryAuthentication().withUser("user").password("password").authorities("APPLICANT");
 
         //Gets information from the database. See the code comments in the SSUDS class for user details. Haha.
         auth.userDetailsService(userDetailsServiceBean());

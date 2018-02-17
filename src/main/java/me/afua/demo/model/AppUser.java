@@ -21,6 +21,10 @@ public class AppUser {
     @NotEmpty
     private String password;
 
+    private String firstName;
+
+    private String lastName;
+
     @CreationTimestamp
     Timestamp createdAt;
 
@@ -75,5 +79,21 @@ public class AppUser {
     public void addRole(AppRole role)
     {
         this.roles.add(role);
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

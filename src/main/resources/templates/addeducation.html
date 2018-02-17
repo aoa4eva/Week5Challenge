@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.tymeleaf.org/thymeleaf-extras-springsecurity4">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head th:replace="fragments/fragments::defaulthead">
+    <meta charset="UTF-8"/>
+</head>
+<body>
+        <div class="container">
+
+
+                <form th:action="@{/education}" th:object="${educationItem}" method="post">
+                <input type="hidden" th:field="*{id}">
+
+                <span th:if="${#fields.hasErrors('institution')}" th:errors="*{institution}"></span>
+
+                <label for="institution">Institution</label>
+                <input type="text" class="form-control" th:field="*{institution}">
+
+                <label for="course">Course</label>
+                <span th:if="${#fields.hasErrors('course')}" th:errors="*{course}"></span>
+                <input type="text" class="form-control" th:field="*{course}">
+
+                <label for="year">Year of Completion</label>
+                <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+                <input type="number" class="form-control" th:field="*{year}">
+
+
+                <button type="submit" class="btn btn-default">Save</button>
+
+                </form>
+
+        </div>
+
+        <span th:replace="fragments/fragments::bootstrap4js"></span>
+</body>
+</html>

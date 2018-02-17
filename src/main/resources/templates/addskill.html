@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.tymeleaf.org/thymeleaf-extras-springsecurity4">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head th:replace="fragments/fragments::defaulthead">
+    <meta charset="UTF-8"/>
+</head>
+<body>
+        <div class="container">
+
+
+                <form th:action="@{/skill}" th:object="${aSkill}" method="post">
+                <input type="hidden" th:field="*{id}">
+                <span th:if="${#fields.hasErrors('skillName')}" th:errors="*{skillName}"></span>
+
+                <label for="skillName">Skill</label>
+                <input type="text" class="form-control" th:field="*{skillName}">
+
+                <label for="proficiency">Proficiency</label>
+                <span th:if="${#fields.hasErrors('proficiency')}" th:errors="*{proficiency}"></span>
+                <input type="text" class="form-control" th:field="*{proficiency}">
+
+
+                    <button type="submit" class="btn btn-default">Save</button>
+
+                </form>
+
+        </div>
+
+        <span th:replace="fragments/fragments::bootstrap4js"></span>
+</body>
+</html>
