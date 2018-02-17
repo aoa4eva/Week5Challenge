@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.tymeleaf.org/thymeleaf-extras-springsecurity4">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head th:replace="fragments/fragments::defaulthead">
+    <meta charset="UTF-8"/>
+</head>
+<body>
+        <div class="container">
+
+
+                <form th:action="@{/experience}" th:object="${workexperience}" method="post">
+                <input type="hidden" th:field="*{id}">
+
+                <span th:if="${#fields.hasErrors('organization')}" th:errors="*{organization}"></span>
+
+                <label for="organizaton">Organization</label>
+                <input type="text" class="form-control" th:field="*{organization}">
+
+                <label for="position">Position</label>
+                <span th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></span>
+                <input type="text" class="form-control" th:field="*{position}">
+
+                <label for="startDate">Start Date</label>
+                <span th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></span>
+                <input type="date" class="form-control" th:field="*{startDate}">
+
+                <label for="endDate">End Date</label>
+                <span th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></span>
+                <input type="date" class="form-control" th:field="*{endDate}">
+
+                <label for="duties">Duties</label>
+                <span th:if="${#fields.hasErrors('duties')}" th:errors="*{duties}"></span>
+                        <textarea class="form-control" th:field="*{duties}"></textarea>
+
+                        <button type="submit" class="btn btn-default">Save</button>
+
+                </form>
+
+        </div>
+
+        <span th:replace="fragments/fragments::bootstrap4js"></span>
+</body>
+</html>

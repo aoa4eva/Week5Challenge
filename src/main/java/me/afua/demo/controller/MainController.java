@@ -26,6 +26,9 @@ public class MainController {
     @Autowired
     EducationRepository educationRepository;
 
+    @Autowired
+    ExperienceRepository experienceRepository;
+
     @RequestMapping("/")
     public @ResponseBody String showIndex()
     {
@@ -132,4 +135,32 @@ public class MainController {
     {
         return educationRepository.findAll().toString();
     }
+
+    //Reproduce the Education code for Experience
+
+    @GetMapping("/experience")
+    public String addExperience(Model model)
+    {
+        model.addAttribute("workexperience",new Experience());
+        return "addexperience";
+    }
+
+    @PostMapping("/experience")
+    public String saveExperience(@Valid @ModelAttribute("workexperience") Experience experience, BindingResult result)
+    {
+        if(result.hasErrors())
+        {
+            return "addexperience";
+        }
+        experienceRepository.save(experience);
+        return "redirect:/";
+    }
+
+    @GetMapping("/listexperience")
+    public @ResponseBody String listExperience()
+    {
+        return experienceRepository.findAll().toString();
+    }
+
+
 }

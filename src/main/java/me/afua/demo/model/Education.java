@@ -53,4 +53,13 @@ public class Education {
     public void setYear(int year) {
         this.year = year;
     }
+
+    @Override
+    public String toString() {
+        return "Education{" +
+                "institution='" + institution + '\'' +
+                ", course='" + course + '\'' +
+                ", year=" + year +
+                '}';
+    }
 }
