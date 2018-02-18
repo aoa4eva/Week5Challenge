@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.tymeleaf.org/thymeleaf-extras-springsecurity4">
-<head th:replace="fragments/fragments::defaulthead">
-    <meta charset="UTF-8"/>
-    <title>Edit profile</title>
+<head>
+    <th:block th:replace="fragments/fragments::agencyhead">
+    </th:block>
 </head>
 
-<body>
+<body id="page-top">
+
+<nav th:replace="fragments/fragments::rrnav"></nav>
+
+<div class="container">
 <form th:action="@{/profile}" th:object="${currentuser}" method="post">
 
     <h1>Edit Profile details</h1>
@@ -27,5 +31,6 @@
     <input type="submit" value="Add">
     <span th:replace="fragments/fragments::bootstrap4js"></span>
 </form>
+</div>
 </body>
 </html>

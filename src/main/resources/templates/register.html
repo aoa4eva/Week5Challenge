@@ -6,6 +6,7 @@
     <title>Register User</title>
 </head>
 <body>
+<nav th:replace="fragments/fragments::rrnav"></nav>
         <div class="container">
 
                 <form th:action="@{/register}" th:object="${newuser}" method="post">

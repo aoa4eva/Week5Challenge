@@ -5,6 +5,7 @@
     <meta charset="UTF-8"/>
 </head>
 <body>
+<nav th:replace="fragments/fragments::rrnav"></nav>
         <div class="container">
 
 
@@ -13,7 +14,7 @@
 
                 <span th:if="${#fields.hasErrors('organization')}" th:errors="*{organization}"></span>
 
-                <label for="organizaton">Organization</label>
+                <label for="organization">Organization</label>
                 <input type="text" class="form-control" th:field="*{organization}">
 
                 <label for="position">Position</label>

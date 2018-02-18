@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.tymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+
+<body id="page-top">
+<header th:replace="fragments/fragments::agencyhead"></header>
+
+<nav th:replace="fragments/fragments::rrnav"></nav>
+<section>
+    <div class="container">
+        <h1>Resume</h1>
+            <div th:replace="fragments/listfragments::education"></div>
+    </div>
+</section>
+
+
+<span th:replace="fragments/fragments::agencyjs"></span>
+</body>
+</html>

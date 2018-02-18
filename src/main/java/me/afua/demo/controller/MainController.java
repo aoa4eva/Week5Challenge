@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -30,15 +31,18 @@ public class MainController {
     ExperienceRepository experienceRepository;
 
     @RequestMapping("/")
-    public @ResponseBody String showIndex()
+    public String showIndex()
     {
-        return "Default home page <a href='/login'>Log in</a>";
+        //return "Default home page <a href='/login'>Log in</a>";
+        return "index";
     }
 
     @RequestMapping("/loggedin")
-    public @ResponseBody String loggedIn(Authentication authentication)
+    public String loggedIn(Model model)
     {
-       return authentication.getName()+" Authorities: "+authentication.getAuthorities().toString()+"<a href='/roles'>Roles</a>";
+        model.addAttribute("educationlist",educationRepository.findAll());
+        return "loggedin";
+       //return authentication.getName()+" Authorities: "+authentication.getAuthorities().toString()+"<a href='/roles'>Roles</a>";
     }
 
     @RequestMapping("/roles")
@@ -120,7 +124,7 @@ public class MainController {
 
     //Reproduce the Skill code for education
     @PostMapping("/education")
-    public String saveEducation(@Valid @ModelAttribute("aSkill") Education education, BindingResult result)
+    public String saveEducation(@Valid @ModelAttribute("educationItem") Education education, BindingResult result)
     {
         if(result.hasErrors())
         {
@@ -161,6 +165,32 @@ public class MainController {
     {
         return experienceRepository.findAll().toString();
     }
+
+
+    //UPDATE METHODS - ADDED LAST
+    @PostMapping("/update/education")
+    public String updateEducation(HttpServletRequest request, Model model)
+    {
+        System.out.println("Education ID:"+request.getParameter("id"));
+        model.addAttribute("educationItem",educationRepository.findOne(new Long(request.getParameter("id"))));
+        return "addeducation";
+    }
+
+    @PostMapping("/update/experience")
+    public String updateExperience(HttpServletRequest request, Model model)
+    {
+        model.addAttribute("workexperience",experienceRepository.findOne(new Long(request.getParameter("id"))));
+        return "addexperience";
+    }
+
+    @PostMapping("/update/skill")
+    public String updateSkill(HttpServletRequest request, Model model)
+    {
+        model.addAttribute("aSkill",experienceRepository.findOne(new Long(request.getParameter("id"))));
+        return "addskill";
+    }
+
+
 
 
 }
