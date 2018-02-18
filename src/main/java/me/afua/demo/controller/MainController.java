@@ -186,7 +186,7 @@ public class MainController {
     @PostMapping("/update/skill")
     public String updateSkill(HttpServletRequest request, Model model)
     {
-        model.addAttribute("aSkill",experienceRepository.findOne(new Long(request.getParameter("id"))));
+        model.addAttribute("aSkill",skillRepository.findOne(new Long(request.getParameter("id"))));
         return "addskill";
     }
 
