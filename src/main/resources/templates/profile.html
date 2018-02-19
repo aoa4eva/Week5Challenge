@@ -5,32 +5,57 @@
     </th:block>
 </head>
 
-<body id="page-top">
+<body id="page">
 
 <nav th:replace="fragments/fragments::rrnav"></nav>
 
 <div class="container">
-<form th:action="@{/profile}" th:object="${currentuser}" method="post">
+<span th:if="!${inmemory}">
+    <section>
+    <form th:action="@{/profile}" th:object="${currentuser}" method="post">
 
-    <h1>Edit Profile details</h1>
+        <h1>Edit Profile details</h1>
 
-    <input type="hidden" th:field="*{id}">
-    <input type="hidden" th:field="*{username}">
-    <input type="hidden" th:field="*{password}">
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{username}">
+        <input type="hidden" th:field="*{password}">
 
-    <h3 th:text="${username}">Username</h3>
-
-    <label for="username">Username</label>
-    <input type="text" class="form-control" th:field="*{firstName}">
-
-    <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
-    <label for="lastName">Last Name</label>
-    <input type="text" class="form-control" th:field="*{lastName}">
+       <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+        <label for="username">Username</label>
+        <h3 th:text="${username}">Username</h3>
 
 
-    <input type="submit" value="Add">
-    <span th:replace="fragments/fragments::bootstrap4js"></span>
-</form>
+
+        <!--<span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>-->
+        <input type="text" class="form-control" th:field="*{firstName}">
+
+        <!--<span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>-->
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" th:field="*{lastName}">
+
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        <label for="email">Last Name</label>
+        <input type="text" class="form-control" th:field="*{email}">
+
+        <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
+        <label for="image">Image</label>
+        <input type="text" class="form-control" th:field="*{image}">
+
+
+
+
+
+        <input type="submit" value="Add">
+    </form>
+    </section>
+</span>
+
+
+<section>
+    <span th:if="${inmemory}" th:inline="text">You cannot complete this user's profile. The user is authenticated in memory.</span>
+</section>
 </div>
+
+<span th:replace="fragments/fragments::bootstrap4js"></span>
 </body>
 </html>

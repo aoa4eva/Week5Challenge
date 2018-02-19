@@ -7,11 +7,24 @@
 </head>
 
 <body id="page-top">
-    <header th:replace="fragments/fragments::agencyhead"></header>
 
     <nav th:replace="fragments/fragments::rrnav"></nav>
+    <span sec:authorize="isAnonymous()">
+         <header th:replace="fragments/fragments::pageheader"></header>
+    </span>
 
-    <header th:replace="fragments/fragments::pageheader"></header>
+    <span sec:authorize="isAuthenticated()">
+        <section>
+            <div class="container">
+                <div class="row">
+                    <h1>Resume</h1><h4 class="pull-right"><a th:href="@{/profile}">Edit Profile</a></h4>
+                </div>
+                <div th:replace="fragments/listfragments::experience"></div>
+                <div th:replace="fragments/listfragments::education"></div>
+                <div th:replace="fragments/listfragments::skill"></div>
+            </div>
+        </section>
+    </span>
 
     <span th:replace="fragments/fragments::agencyjs"></span>
 </body>

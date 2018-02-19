@@ -1,6 +1,7 @@
 package me.afua.demo.model;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -15,7 +16,10 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    private String image;
+
     @NotEmpty
+    @Column(unique = true)
     private String username;
 
     @NotEmpty
@@ -24,6 +28,11 @@ public class AppUser {
     private String firstName;
 
     private String lastName;
+
+    private String resumeSummary;
+
+    @Email
+    private String email;
 
     @CreationTimestamp
     Timestamp createdAt;
@@ -95,5 +104,29 @@ public class AppUser {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getResumeSummary() {
+        return resumeSummary;
+    }
+
+    public void setResumeSummary(String resumeSummary) {
+        this.resumeSummary = resumeSummary;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

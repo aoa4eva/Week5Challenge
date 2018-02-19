@@ -9,56 +9,71 @@
 
 
 <!--List education-->
-<div th:fragment="education">
-         <h3>Education</h3>
-        <div th:each="educationitem:${educationlist}">
-            <span class="h3" th:text="Institution"></span><span th:text="${educationitem.institution"></span>
-            <span class="h3" th:text="Course"></span> <div th:text="${educationitem.course}">Item</div>
-            <span class="h3" th:text="Year"></span><div th:text="${educationitem.year}">Item</div>
 
+<div class="addpadding th:fragment="education">
+    <h3>Education</h3>
+        <div th:each="educationitem:${educationlist}">
+            <div class="row">
+              <span class="h6 font-weight-bold" th:inline="text">Institution:&nbsp </span> <span class="h6" th:text="${educationitem.institution}"></span>
+            </div>
+            <div class="row">
+            <span class="h6 font-weight-bold" th:inline="text">Course:&nbsp </span> <div class="h6" th:text="${educationitem.course}">Item</div>
+            </div>
+            <div class="row">
+            <span class="h6 font-weight-bold" th:inline="text">Year:&nbsp </span> <div class="h6" th:text="${educationitem.year}">Item</div>
+            </div>
+            <br/>
     </div>
 </div>
 <!--End of education list-->
 
 <!--List skill-->
-<div th:fragment="skill">
-    <div class="row">
-        <div class="col-md-6"><h3>Skills</h3></div>
-        <div class="col-md-6"><h4 class="pull-right"><a th:href="@{/skill}">Add</a></h4></div>
-    </div>
-    <table class="table table-striped">
-        <tr th:each="aSkill:${skilllist}">
-            <td th:text="${aSkill.skillName}">Item</td>
-            <td th:text="${aSkill.proficiency}">Item</td>
-            <form th:action="@{/update/skill}" th:method="post">
-                <td><button class="btn btn-default" name="id" th:value="${aSkill.id}">Update</button></td>
-            </form>
-        </tr>
-    </table>
+<div class="addpadding th:fragment="skill">
+    <label class="h3">Skill</label>
+        <div th:each="aSkill:${skilllist}">
+            <div class="row">
+                <span class="h6 font-weight-bold" th:inline="text">Skill:&nbsp </span> <span class="h6" th:text="${aSkill.skillName}"></span>
+            </div>
+            <div class="row">
+                <span class="h6 font-weight-bold" th:inline="text">Skill:&nbsp </span> <span class="h6" th:text="${aSkill.proficiency}"></span>
+            </div>
+        </div>
+
 </div>
 
 <!--End of skill list-->
 
 <!--List experience-->
 <div th:fragment="experience">
-    <div class="row">
-        <div class="col-md-6"><h3>Experience</h3></div>
-        <div class="col-md-6"><h4 class="pull-right"><a th:href="@{/experience}">Add</a></h4></div>
-    </div>
-    <table class="table table-striped">
-        <tr th:each="workexperience:${experiencelist}">
-            <td th:text="${workexperience.organization}">Item</td>
-            <td th:text="${workexperience.position}">Item</td>
-            <td th:text="${workexperience.startDate}">Item</td>
-            <td th:text="${workexperience.endDate}">Item</td>
-            <td th:text="${workexperience.duties}">Item</td>
-            <form th:action="@{/update/experience}" th:method="post">
-                <td><button class="btn btn-default" name="id" th:value="${workexperience.id}">Update</button></td>
-            </form>
-        </tr>
-    </table>
-</div>
+    <label class="h3">Experience</label>
 
+        <div class="addpadding" th:each="workexperience:${experiencelist}">
+
+            <div class="row">
+                <span class="h6 font-weight-bold" th:inline="text">Organization:&nbsp </span> <span class="h6" th:text="${workexperience.organization}"></span>
+            </div>
+            <div class="row">
+                <span class="h6 font-weight-bold" th:inline="text">Position:&nbsp </span> <span class="h6" th:text="${workexperience.position}"></span>
+            </div>
+            <div class="row">
+                <span class="h6 font-weight-bold" th:inline="text">Start Date:&nbsp </span> <span class="h6" th:text="${workexperience.startDate}"></span>
+            </div>
+            <div class="row">
+                <span class="h6 font-weight-bold" th:inline="text">End Date:&nbsp </span> <span class="h6" th:text="${workexperience.endDate}"></span>
+            </div>
+            <div class="row">
+                <span class="h6 font-weight-bold" th:inline="text">Duties:&nbsp </span> <span class="h6" th:text="${workexperience.duties}"></span>
+            </div>
+
+        </div>
+ </div>
+<!-- End of experience list -->
+
+<!--Show personal details-->
+<div class="row">
+    <a href="${person.image}==null?'':${person.image}"></a>
+</div>
+<!--End of personal details -->
 
 </body>
 </html>
