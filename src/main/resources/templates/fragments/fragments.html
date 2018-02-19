@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.tymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+
+<!-- Theme header-->
+<head th:fragment="defaulthead">
+    <meta charset="UTF-8"/>
+    <title>${title}</title>
+
+    <!--Bootstrap header -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--Theme header-->
+</head>
+
+
+<!-- Theme header-->
+<th:block th:fragment="agencyhead">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title th:text="${title}"></title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom fonts for this template -->
+        <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+        <!-- Custom styles for this template -->
+        <link href="/css/agency.min.css" rel="stylesheet">
+
+</th:block>
+    <!--Theme header-->
+
+
+
+
+
+<!-- Start of navigation bar-->
+
+<nav th:fragment="rrnav" class="navbar navbar-expand-lg navbar-dark fixed-top" th:classappend="${#authorization.expression('isAuthenticated()')}?'mainNavDark':''"id="mainNav">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Robo Resume</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" sec:authorize="isAuthenticated()" href="#about">Add Resume Sections</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" sec:authorize="isAuthenticated()" th:href="@{/index}">References</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/login" sec:authorize="isAnonymous()">Log In</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"  id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" sec:authorize="isAuthenticated()" th:href="@{/loggedin}"><span th:text="${#authorization.expression('hasAuthority(''EMPLOYEE'')')} ?'Employer ':'Applicant '"></span>View</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">Cover Letter</a>
+                        <a class="dropdown-item" th:href="@{/loggedin}">Resume</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/logout?logout}" class="nav-link js-scroll-trigger" sec:authorize="isAuthenticated()">Log Out</a>
+                </li>
+                <li  sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link js-scroll-trigger" sec:authentication="name">Name</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- End of navigation bar-->
+
+
+<span th:fragment="bootstrap4js">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</span>
+
+
+<!-- Header -->
+<header th:fragment="pageheader" class="masthead">
+    <div class="container">
+        <div class="intro-text">
+            <div class="intro-heading text-uppercase">Robo Resume</div>
+            <div class="intro-lead-in">An app for applicants and employers</div>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="/login" sec:authorize="isAnonymous()">Log In</a>
+        </div>
+    </div>
+</header>
+
+<!-- Footer -->
+<footer th:fragment="pagefooter">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <span class="copyright">Copyright &copy; Robo Resume 2018</span>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-inline social-buttons">
+                    <li class="list-inline-item">
+                        <a href="https://www.twitter.com/aoa4eva">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://www.github.com/aoa4eva">
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://www.linkedin.com/in/afuaankomah">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-inline quicklinks">
+                    <li class="list-inline-item">
+                        <a href="#">Privacy Policy</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">Terms of Use</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<span th:fragment="agencyjs">
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Contact form JavaScript -->
+<script src="/js/jqBootstrapValidation.js"></script>
+<script src="/js/contact_me.js"></script>
+
+<!-- Custom scripts for this template -->
+<script src="/js/agency.min.js"></script>
+</span>
+
+
+</body>
+</html>

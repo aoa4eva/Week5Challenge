@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.tymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+
+<!--List education-->
+ <div th:fragment="education">
+     <div class="row">
+         <div class="col-md-6"><h3>Education</h3></div>
+         <div class="col-md-6"><h4 class="pull-right"><a th:href="@{/education}">Add</a></h4></div>
+     </div>
+     <table class="table table-striped">
+         <thead>
+         <th>Institution</th>
+         <th>Course</th>
+         <th>Year</th>
+         <th>Update</th>
+         </thead>
+       <tr th:each="educationitem:${educationlist}">
+           <td th:text="${educationitem.institution}">Item</td>
+           <td th:text="${educationitem.course}">Item</td>
+           <td th:text="${educationitem.year}">Item</td>
+           <form th:action="@{/update/education}" th:method="post">
+             <td><button class="btn btn-default" name="id" th:value="${educationitem.id}">Update</button></td>
+           </form>
+       </tr>
+  </table>
+ </div>
+<!--End of education list-->
+
+<!--List skill-->
+<div th:fragment="skill">
+   <div class="row">
+       <div class="col-md-6"><h3>Skills</h3></div>
+       <div class="col-md-6"><h4 class="pull-right"><a th:href="@{/skill}">Add</a></h4></div>
+   </div>
+    <table class="table table-striped">
+        <tr th:each="aSkill:${skilllist}">
+            <td th:text="${aSkill.skillName}">Item</td>
+            <td th:text="${aSkill.proficiency}">Item</td>
+            <form th:action="@{/update/skill}" th:method="post">
+                <td><button class="btn btn-default" name="id" th:value="${aSkill.id}">Update</button></td>
+            </form>
+        </tr>
+    </table>
+</div>
+
+<!--End of skill list-->
+
+<!--List experience-->
+<div th:fragment="experience">
+    <div class="row">
+        <div class="col-md-6"><h3>Experience</h3></div>
+        <div class="col-md-6"><h4 class="pull-right"><a th:href="@{/experience}">Add</a></h4></div>
+    </div>
+    <table class="table table-striped">
+        <tr th:each="workexperience:${experiencelist}">
+            <td th:text="${workexperience.organization}">Item</td>
+            <td th:text="${workexperience.position}">Item</td>
+            <td th:text="${workexperience.startDate}">Item</td>
+            <td th:text="${workexperience.endDate}">Item</td>
+            <td th:text="${workexperience.duties}">Item</td>
+            <form th:action="@{/update/experience}" th:method="post">
+                <td><button class="btn btn-default" name="id" th:value="${workexperience.id}">Update</button></td>
+            </form>
+        </tr>
+    </table>
+</div>
+
+<!--End of experience list-->
+
+</body>
+</html>
