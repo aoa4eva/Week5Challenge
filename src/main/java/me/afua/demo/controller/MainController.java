@@ -62,10 +62,11 @@ public class MainController {
         model.addAttribute("educationlist",educationRepository.findAll());
         model.addAttribute("skilllist",skillRepository.findAll());
         model.addAttribute("experiencelist",experienceRepository.findAll());
-        if(auth!=null)
+        AppUser currentUser = userRepository.findAppUserByUsername(auth.getName());
+        if(auth!=null && currentUser!=null)
         {
             System.out.println(auth.getName()+" authorities:"+auth.getAuthorities().toString());
-            model.addAttribute("person",userRepository.findAppUserByUsername(auth.getName()));
+            model.addAttribute("person",currentUser);
         }
         else
             model.addAttribute("inMemory",true);
@@ -107,9 +108,9 @@ public class MainController {
 
         AppUser getCurrentUser = userRepository.findAppUserByUsername(authentication.getName());
         if (getCurrentUser == null)
-            model.addAttribute("inmemory", true);
+            model.addAttribute("inMemory", true);
         else
-        {       model.addAttribute("inmemory", false);
+        {       model.addAttribute("inMemory", false);
                 model.addAttribute("currentuser", getCurrentUser);
         }
         return "profile";

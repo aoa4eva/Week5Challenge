@@ -10,7 +10,7 @@
 <nav th:replace="fragments/fragments::rrnav"></nav>
 
 <div class="container">
-<span th:if="!${inmemory}">
+<span th:if="!${inMemory}">
     <section>
     <form th:action="@{/profile}" th:object="${currentuser}" method="post">
 
