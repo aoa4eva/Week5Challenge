@@ -41,10 +41,17 @@ public class MainController {
     public String loggedIn(Model model)
     {
         model.addAttribute("educationlist",educationRepository.findAll());
+        model.addAttribute("skilllist",skillRepository.findAll());
+        model.addAttribute("experiencelist",experienceRepository.findAll());
         return "loggedin";
        //return authentication.getName()+" Authorities: "+authentication.getAuthorities().toString()+"<a href='/roles'>Roles</a>";
     }
 
+    @RequestMapping("/showresume")
+    public String showResume()
+    {
+        return "showresume";
+    }
     @RequestMapping("/roles")
     public @ResponseBody String showRoles()
     {
@@ -68,7 +75,7 @@ public class MainController {
         }
         user.addRole(roleRepository.findAppRoleByRoleName("APPLICANT"));
         userRepository.save(user);
-        return "redirect:/";
+        return "redirect:/loggedin";
     }
 
     @GetMapping("/profile")
@@ -86,7 +93,7 @@ public class MainController {
             return "profile";
         }
         userRepository.save(user);
-        return "redirect:/";
+        return "redirect:/loggedin";
     }
 
     //Replicate the profile code for Skill
@@ -105,7 +112,7 @@ public class MainController {
             return "addskill";
         }
         skillRepository.save(skill);
-        return "redirect:/";
+        return "redirect:/loggedin";
     }
 
     @GetMapping("/listskills")
@@ -131,7 +138,7 @@ public class MainController {
             return "addeducation";
         }
         educationRepository.save(education);
-        return "redirect:/";
+        return "redirect:/loggedin";
     }
 
     @GetMapping("/listeducation")
@@ -157,7 +164,7 @@ public class MainController {
             return "addexperience";
         }
         experienceRepository.save(experience);
-        return "redirect:/";
+        return "redirect:/loggedin";
     }
 
     @GetMapping("/listexperience")
@@ -166,12 +173,10 @@ public class MainController {
         return experienceRepository.findAll().toString();
     }
 
-
     //UPDATE METHODS - ADDED LAST
     @PostMapping("/update/education")
     public String updateEducation(HttpServletRequest request, Model model)
     {
-        System.out.println("Education ID:"+request.getParameter("id"));
         model.addAttribute("educationItem",educationRepository.findOne(new Long(request.getParameter("id"))));
         return "addeducation";
     }

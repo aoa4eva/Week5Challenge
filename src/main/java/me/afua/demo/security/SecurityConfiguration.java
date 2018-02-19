@@ -35,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 //Displays 'you have been logged out' message on login form when a user logs out (default login form). Change this
                 //to logout?logout if you are using a custom form.
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll();
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll().logoutSuccessUrl("/");
         }
 
     @Override

@@ -1,5 +1,7 @@
 package me.afua.demo.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,8 +13,10 @@ public class Experience {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotEmpty
     private String organization;
 
+    @NotEmpty
     private String position;
 
     private String startDate;

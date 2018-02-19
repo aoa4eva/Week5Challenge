@@ -8,15 +8,15 @@
 
 <body id="page-top">
 <header th:replace="fragments/fragments::agencyhead"></header>
-
 <nav th:replace="fragments/fragments::rrnav"></nav>
 <section>
     <div class="container">
         <h1>Resume</h1>
+            <div th:replace="fragments/listfragments::experience"></div>
             <div th:replace="fragments/listfragments::education"></div>
+           <div th:replace="fragments/listfragments::skill"></div>
     </div>
 </section>
-
 
 <span th:replace="fragments/fragments::agencyjs"></span>
 </body>
