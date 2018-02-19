@@ -37,7 +37,12 @@ public class MainController {
         model.addAttribute("skilllist",skillRepository.findAll());
         model.addAttribute("experiencelist",experienceRepository.findAll());
         if(auth!=null)
+        {
             System.out.println(auth.getName()+" authorities:"+auth.getAuthorities().toString());
+            model.addAttribute("person",userRepository.findAppUserByUsername(auth.getName()));
+        }
+        else
+            model.addAttribute("inMemory",true);
         return "index";
     }
 
@@ -52,11 +57,18 @@ public class MainController {
     }
 
     @RequestMapping("/showresume")
-    public String showResume(Model model)
+    public String showResume(Model model,Authentication auth)
     {
         model.addAttribute("educationlist",educationRepository.findAll());
         model.addAttribute("skilllist",skillRepository.findAll());
         model.addAttribute("experiencelist",experienceRepository.findAll());
+        if(auth!=null)
+        {
+            System.out.println(auth.getName()+" authorities:"+auth.getAuthorities().toString());
+            model.addAttribute("person",userRepository.findAppUserByUsername(auth.getName()));
+        }
+        else
+            model.addAttribute("inMemory",true);
         return "showresume";
     }
     @RequestMapping("/roles")
@@ -212,6 +224,13 @@ public class MainController {
         model.addAttribute("aSkill",skillRepository.findOne(new Long(request.getParameter("id"))));
         return "addskill";
     }
+
+    @RequestMapping("/references")
+    public String showReferences()
+    {
+        return "references";
+    }
+
 
 
 

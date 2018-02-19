@@ -22,23 +22,25 @@
 
        <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
         <label for="username">Username</label>
-        <h3 th:text="${username}">Username</h3>
+        <h2 sec:authentication="name">Username</h2>
+        <br/>
 
-
-
+        <h3>Personal details</h3>
         <!--<span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>-->
+        <label for="lastName">Last Name</label>
         <input type="text" class="form-control" th:field="*{firstName}">
 
         <!--<span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>-->
         <label for="lastName">Last Name</label>
         <input type="text" class="form-control" th:field="*{lastName}">
 
-        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-        <label for="email">Last Name</label>
+
+        <label for="email">Email</label>
+         <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
         <input type="text" class="form-control" th:field="*{email}">
 
-        <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
         <label for="image">Image</label>
+        <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
         <input type="text" class="form-control" th:field="*{image}">
 
 

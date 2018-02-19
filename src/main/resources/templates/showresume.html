@@ -10,14 +10,17 @@
     <nav th:replace="fragments/fragments::rrnav"></nav>
     <div class="container">
         <section>
-            <h3>Experience</h3>
+
+                <span th:if="!${inMemory}" sec:authorize="hasAuthority('APPLICANT')">
+                <div th:replace="fragments/displayresume::persondetails"></div>
+                </span>
 
             <span th:replace="fragments/displayresume::experience"></span>
 
-            <h3>Education</h3>
+            <span th:replace="fragments/displayresume::experience"></span>
+
             <span th:replace="fragments/displayresume::education"></span>
-            <h3>Skill</h3>
-            <br/>
+
             <span th:replace="fragments/displayresume::skill"></span>
         </section>
     </div>

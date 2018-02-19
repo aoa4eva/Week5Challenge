@@ -62,7 +62,7 @@
                     <a class="nav-link js-scroll-trigger" sec:authorize="hasAuthority('APPLICANT')" href="#about">Add Resume Sections</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" sec:authorize="hasAuthority('APPLICANT')" th:href="@{/index}">References</a>
+                    <a class="nav-link js-scroll-trigger" sec:authorize="hasAuthority('APPLICANT')" th:href="@{/references}">References</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="/login" sec:authorize="isAnonymous()">Log In</a>
@@ -77,6 +77,9 @@
                 </li>
                 <li class="nav-item">
                     <a th:href="@{/logout?logout}" class="nav-link js-scroll-trigger" sec:authorize="isAuthenticated()">Log Out</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/register}" class="nav-link js-scroll-trigger" sec:authorize="isAnonymous()">Register</a>
                 </li>
                 <li  sec:authorize="isAuthenticated()" class="nav-item">
                     <a class="nav-link js-scroll-trigger" sec:authentication="name">Name</a>

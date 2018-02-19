@@ -7,12 +7,11 @@
 </head>
 <body>
 
-
 <!--List education-->
 
-<div class="addpadding th:fragment="education">
+<div th:fragment="education">
     <h3>Education</h3>
-        <div th:each="educationitem:${educationlist}">
+        <div class="addpadding" th:each="educationitem:${educationlist}">
             <div class="row">
               <span class="h6 font-weight-bold" th:inline="text">Institution:&nbsp </span> <span class="h6" th:text="${educationitem.institution}"></span>
             </div>
@@ -28,15 +27,13 @@
 <!--End of education list-->
 
 <!--List skill-->
-<div class="addpadding th:fragment="skill">
+<div  th:fragment="skill">
     <label class="h3">Skill</label>
-        <div th:each="aSkill:${skilllist}">
+        <div class="addpadding" th:each="aSkill:${skilllist}">
             <div class="row">
-                <span class="h6 font-weight-bold" th:inline="text">Skill:&nbsp </span> <span class="h6" th:text="${aSkill.skillName}"></span>
+                <span class="h6 font-weight-bold" th:inline="text">Skill:&nbsp </span> <span class="h6" th:inline="text">[[${aSkill.skillName}]], [[${aSkill.proficiency}]]</span>
             </div>
-            <div class="row">
-                <span class="h6 font-weight-bold" th:inline="text">Skill:&nbsp </span> <span class="h6" th:text="${aSkill.proficiency}"></span>
-            </div>
+            <br/>
         </div>
 
 </div>
@@ -46,7 +43,6 @@
 <!--List experience-->
 <div th:fragment="experience">
     <label class="h3">Experience</label>
-
         <div class="addpadding" th:each="workexperience:${experiencelist}">
 
             <div class="row">
@@ -64,15 +60,29 @@
             <div class="row">
                 <span class="h6 font-weight-bold" th:inline="text">Duties:&nbsp </span> <span class="h6" th:text="${workexperience.duties}"></span>
             </div>
-
+            <br/>
         </div>
  </div>
 <!-- End of experience list -->
 
 <!--Show personal details-->
-<div class="row">
-    <a href="${person.image}==null?'':${person.image}"></a>
+<div th:fragment="persondetails">
+    <div class="row">
+        <img class="rrimg" th:src="${person.image}==null?'https://upload.wikimedia.org/wikipedia/commons/e/e3/User_Avatar_Person_Info_Information-512.png':${person.image}" alt="default image"></img>
+    </div>
+    <div class="row">
+            <label th:inline="text" class="h3">[[${person.firstName}]] [[${person.LastName}]]</label>
+    </div>
+    <div class="row" th:if="${person.resumeSummary}">
+            <label th:inline="text" class="h4">[[${person.resumeSummary}]]</label>
+    </div>
+
+    <div class="row">
+                <label th:inline="text" class="h4">[[${person.email}]]</label>
+    </div>
+
 </div>
+
 <!--End of personal details -->
 
 </body>
