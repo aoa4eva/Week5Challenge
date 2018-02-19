@@ -31,9 +31,13 @@ public class MainController {
     ExperienceRepository experienceRepository;
 
     @RequestMapping("/")
-    public String showIndex()
+    public String showIndex(Model model, Authentication auth)
     {
-        //return "Default home page <a href='/login'>Log in</a>";
+        model.addAttribute("educationlist",educationRepository.findAll());
+        model.addAttribute("skilllist",skillRepository.findAll());
+        model.addAttribute("experiencelist",experienceRepository.findAll());
+        if(auth!=null)
+            System.out.println(auth.getName()+" authorities:"+auth.getAuthorities().toString());
         return "index";
     }
 
@@ -48,8 +52,11 @@ public class MainController {
     }
 
     @RequestMapping("/showresume")
-    public String showResume()
+    public String showResume(Model model)
     {
+        model.addAttribute("educationlist",educationRepository.findAll());
+        model.addAttribute("skilllist",skillRepository.findAll());
+        model.addAttribute("experiencelist",experienceRepository.findAll());
         return "showresume";
     }
     @RequestMapping("/roles")
@@ -67,21 +74,32 @@ public class MainController {
     }
 
     @PostMapping("/register")
-    public String saveUser(@Valid @ModelAttribute("newuser") AppUser user, BindingResult result)
+    public String saveUser(@Valid @ModelAttribute("newuser") AppUser user, BindingResult result,HttpServletRequest request)
     {
         if(result.hasErrors())
         {
             return "register";
         }
-        user.addRole(roleRepository.findAppRoleByRoleName("APPLICANT"));
+
+
+        if(request.getParameter("isEmployer")!=null)
+            user.addRole(roleRepository.findAppRoleByRoleName("EMPLOYER"));
+        else
+            user.addRole(roleRepository.findAppRoleByRoleName("APPLICANT"));
         userRepository.save(user);
         return "redirect:/loggedin";
     }
 
     @GetMapping("/profile")
-    public String showProfile(Model model, Authentication authentication)
-    {
-        model.addAttribute("currentuser",userRepository.findAppUserByUsername(authentication.getName()));
+    public String showProfile(Model model, Authentication authentication) {
+
+        AppUser getCurrentUser = userRepository.findAppUserByUsername(authentication.getName());
+        if (getCurrentUser == null)
+            model.addAttribute("inmemory", true);
+        else
+        {       model.addAttribute("inmemory", false);
+                model.addAttribute("currentuser", getCurrentUser);
+        }
         return "profile";
     }
 
