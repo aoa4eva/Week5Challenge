@@ -41,7 +41,7 @@ public class AppUser {
     private Set<AppRole> roles;
 
     @ManyToMany
-    private Set <Education> myEdus;
+    private Set<Education> myEdus;
 
     @ManyToMany
     private Set <Experience> myExperience;
@@ -164,12 +164,12 @@ public class AppUser {
         this.myEdus = myEdus;
     }
 
-    public Set<Experience> getMyExperiences() {
+    public Set<Experience> getMyExperience() {
         return myExperience;
     }
 
-    public void setMyExperiences(Set<Experience> myExperiences) {
-        this.myExperience = myExperiences;
+    public void setMyExperience(Set<Experience> myExperience) {
+        this.myExperience = myExperience;
     }
 
     public Set<Skill> getMySkills() {

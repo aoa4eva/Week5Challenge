@@ -20,7 +20,7 @@ public class SSUDS implements UserDetailsService {
         this.userRepo = userRepository;
     }
 
-  /*
+  /**
    The loadbyUsername method attempts to create an authentication string to be used to authenticate the user who logs in.
    See the code below for the format of the user that is returned to Spring security, and used by the authentiation manager builder
    in the security configuration file.

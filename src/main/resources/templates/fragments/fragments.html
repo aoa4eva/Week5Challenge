@@ -76,6 +76,10 @@
                     </div>
                 </li>
                 <li class="nav-item">
+                    <a th:href="@{/getMyJobs}" class="nav-link js-scroll-trigger" sec:authorize="isAuthenticated()">Suggested Jobs</a>
+                </li>
+
+                <li class="nav-item">
                     <a th:href="@{/logout?logout}" class="nav-link js-scroll-trigger" sec:authorize="isAuthenticated()">Log Out</a>
                 </li>
                 <li class="nav-item">

@@ -102,8 +102,12 @@
             <form th:action="@{/update/job}" th:method="post">
                 <td><button class="btn btn-default" name="id" th:value="${eachjob.id}">Update</button></td>
             </form>
-            <form th:action="@{/searchskills}" th:method="post">
+            <form th:action="@{/addskilltojob}" th:method="post">
                 <td><button class="btn btn-default" name="jobid" th:value="${eachjob.id}">Add Skill</button></td>
+            </form>
+            <form th:action="@{/viewjobskills}" th:method="post">
+                <!--"${#lists.size(eachJob.jobSkills)}"-->
+                <td><button class="btn btn-default" name="jobid" th:value="${eachjob.id}">View Added Skills</button></td>
             </form>
         </tr>
     </table>

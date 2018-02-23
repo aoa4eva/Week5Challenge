@@ -1,21 +1,15 @@
 package me.afua.demo.controller;
 
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import me.afua.demo.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
-import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 @Controller
@@ -50,7 +44,7 @@ public class MainController {
             if(thisUser!=null) {
                 model.addAttribute("educationlist", thisUser.getMyEdus());
                 model.addAttribute("skilllist", thisUser.getMySkills());
-                model.addAttribute("experiencelist", thisUser.getMyExperiences());
+                model.addAttribute("experiencelist", thisUser.getMyExperience());
                 System.out.println(auth.getName() + " authorities:" + auth.getAuthorities().toString());
                 model.addAttribute("person", userRepository.findAppUserByUsername(auth.getName()));
             }
@@ -161,14 +155,17 @@ public class MainController {
     @PostMapping("/skill")
     public String saveSkill(@Valid @ModelAttribute("aSkill") Skill skill, BindingResult result, Authentication auth)
     {
+
         if(result.hasErrors())
         {
             return "addskill";
         }
         skillRepository.save(skill);
         AppUser currentUser =  userRepository.findAppUserByUsername(auth.getName());
+        currentUser.getMySkills().toString();
         currentUser.addSkill(skill);
         userRepository.save(currentUser);
+
         return "redirect:/";
     }
 
@@ -331,56 +328,43 @@ public class MainController {
         return "listjobs";
     }
 
-    @GetMapping("/searchskills")
-    public String searchSkillForm(HttpServletRequest request, Model model)
-    {
-        //Show the search skills form. You should be able to add a job id to the request parameters
-        //so that you can add skills for a particular job
-
-        String jobid = request.getParameter("jobid");
-        if(jobid!=null)
-            model.addAttribute("jobid",jobid);
-        model.addAttribute("searchlist",skillRepository.findAll());
-        return "searchskills";
-    }
-
-    @PostMapping("/searchskills")
-    public String showSearchSkills(HttpServletRequest request, Model model) {
-        Iterable<Skill> searchlistresults = null;
-        String search = request.getParameter("skillsearch");
-        String jobid = request.getParameter("jobid");
-        System.out.println("Job ID:" + jobid);
-
-        if (search != null) {
-            searchlistresults = skillRepository.findSkillBySkillNameContainingIgnoreCase(search);
-        }
-
-        if (searchlistresults == null || jobid == null) {
-            searchlistresults = skillRepository.findAll();
-        }
-
-        if (searchlistresults == null && jobid != null)
-            model.addAttribute("displaymsg", "Unable to find matching skills");
-
-        if (jobid != null)
-        {
-            model.addAttribute("displaymsg", "Add skills to " + jobRepository.findOne(new Long(jobid)).getJobTitle());
-            model.addAttribute("jobid", jobid);
-        }
-
-
-        model.addAttribute("searchlist",searchlistresults);
-        return "searchskills";
-    }
-
-    @RequestMapping("/addskilltojob")
-    public @ResponseBody  String addSkilltoJob(HttpServletRequest request)
+    @PostMapping("/addskilltojob")
+    public String showSkillsForJob(HttpServletRequest request, Model model)
     {
         String jobid = request.getParameter("jobid");
+        model.addAttribute("newjob",jobRepository.findOne(new Long(jobid)));
+        model.addAttribute("skillList",skillRepository.findAll());
+        return "addskilltojob";
+    }
+
+    @PostMapping("/saveskilltojob")
+    public String addSkilltoJob(HttpServletRequest request, @ModelAttribute("newjob") AppJob job)
+    {
         String skillid = request.getParameter("skillid");
-        System.out.println("Job id from add skill to job:"+jobid+" Skill id:"+skillid);
-        return "Skill  added to job";
+        System.out.println("Job id from add skill to job:"+job.getId()+" Skill id:"+skillid);
+        job.addSkilltoJob(skillRepository.findOne(new Long(skillid)));
+        jobRepository.save(job);
+        return "redirect:/listjobs";
     }
 
+    @PostMapping("/viewjobskills")
+    public String viewJobSkills(HttpServletRequest request, Model model)
+    {
+        String jobid = request.getParameter("jobid");
+        AppJob job = jobRepository.findOne(new Long(jobid));
+        if(job.getJobSkills().size()<1)
+            return "redirect:/listjobs";
+        model.addAttribute("newjob",job);
+        return "viewjobskills";
+    }
 
+    @RequestMapping("/getMyJobs")
+    public String getJobsThatApply(Authentication auth, Model model)
+    {
+        HashSet <Skill> mySkills = new HashSet(userRepository.findAppUserByUsername(auth.getName()).getMySkills());
+        HashSet <AppJob> matchingJobs = jobRepository.findAppJobsByJobSkillsIn(mySkills);
+        System.out.println(matchingJobs.toString());
+        model.addAttribute("joblist",matchingJobs);
+        return "viewsuggestedjobs";
+    }
 }

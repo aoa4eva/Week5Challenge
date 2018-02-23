@@ -3,7 +3,7 @@ package me.afua.demo.model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class Skill {
@@ -18,7 +18,10 @@ public class Skill {
     private String proficiency;
 
     @ManyToMany(mappedBy="mySkills")
-    private Set<AppUser> people;
+    private List<AppUser> people;
+
+    @ManyToMany(mappedBy="jobSkills")
+    private List<AppJob> skillsforJob;
 
     public long getId() {
         return id;
@@ -42,6 +45,22 @@ public class Skill {
 
     public void setProficiency(String proficiency) {
         this.proficiency = proficiency;
+    }
+
+    public List<AppUser> getPeople() {
+        return people;
+    }
+
+    public void setPeople(List<AppUser> people) {
+        this.people = people;
+    }
+
+    public List<AppJob> getSkillsforJob() {
+        return skillsforJob;
+    }
+
+    public void setSkillsforJob(List<AppJob> skillsforJob) {
+        this.skillsforJob = skillsforJob;
     }
 
     @Override

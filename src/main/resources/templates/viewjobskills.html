@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <th:block th:replace="fragments/fragments::agencyhead">
+    </th:block>
+</head>
+
+<body id="page-top">
+<div class="container">
+
+<nav th:replace="fragments/fragments::rrnav"></nav>
+<span sec:authorize="isAnonymous()">
+         <header th:replace="fragments/fragments::pageheader"></header>
+    </span>
+
+<span sec:authorize="isAuthenticated()">
+        <section>
+
+                <form th:action="@{/saveskilltojob}" th:object="${newjob}" method="post">
+                    <div class="col-md-6">
+                        <h4 class="pull-right" th:inline="text">View skills for [[${newjob.jobTitle}]]</h4>
+                    <input type="hidden" th:field="*{id}">
+                    <input type="hidden" class="form-control" th:field="*{jobTitle}">
+                        <label th:text="*{jobTitle}" class="text-center"></label>
+                    </div>
+                    <br/>
+                    <span th:each="eachSkill:${newjob.jobSkills}">
+                        <button disabled=true class="btn btn-default" type="submit" name="skillid" th:value="${eachSkill.id}" th:text="${eachSkill.skillName}"></button>
+                    </span>
+
+                </form>
+        </section>
+    </span>
+</div>
+<span th:replace="fragments/fragments::agencyjs"></span>
+</body>
+
+
+</html>
