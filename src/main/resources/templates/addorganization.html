@@ -1,15 +1,37 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.tymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <head>
-    <meta charset="UTF-8"/>
-    <title>Add Organization</title>
+    <th:block th:replace="fragments/fragments::agencyhead">
+    </th:block>
 </head>
-<body>
-    <form th:action="@{/addorganization}" th:object="${neworg}" method="post">
-        <input type="hidden" th:field="*{id}">
-        <span th:if="${#fields.hasErrors('orgName')}" th:errors="*{orgName}"></span>
-        <input type="text" th:field="*{orgName}">
-        <input type="submit" value="Add">
-    </form>
+
+<body id="page-top">
+
+    <nav th:replace="fragments/fragments::rrnav"></nav>
+    <span sec:authorize="isAnonymous()">
+         <header th:replace="fragments/fragments::pageheader"></header>
+    </span>
+
+    <span sec:authorize="isAuthenticated()">
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                    <h1>Add Organization</h1>
+                    </div>
+
+               </div>
+             <form th:action="@{/addorganization}" th:object="${neworg}" method="post">
+                <input type="hidden" th:field="*{id}">
+                <span th:if="${#fields.hasErrors('orgName')}" th:errors="*{orgName}"></span>
+                <input type="text" th:field="*{orgName}">
+                <input type="submit" value="Add">
+            </form>
+
+        </section>
+    </span>
+
+    <span th:replace="fragments/fragments::agencyjs"></span>
 </body>
 </html>

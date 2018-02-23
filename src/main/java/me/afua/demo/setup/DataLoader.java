@@ -115,6 +115,14 @@ public class DataLoader implements CommandLineRunner {
         user.addRole(roleRepo.findAppRoleByRoleName("EMPLOYER"));
         userRepository.save(user);
 
+        user = new AppUser();
+        user.setUsername("recruiter");
+        user.setPassword("password");
+        user.setFirstName("A recruiter");
+        user.setLastName("User");
+        user.addRole(roleRepo.findAppRoleByRoleName("RECRUITER"));
+        userRepository.save(user);
+
 
 
 

@@ -12,6 +12,7 @@ public class Skill {
     private long id;
 
     @NotEmpty
+    @Column(unique=true)
     private String skillName;
 
     @NotEmpty

@@ -76,7 +76,13 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a th:href="@{/getMyJobs}" class="nav-link js-scroll-trigger" sec:authorize="isAuthenticated()">Suggested Jobs</a>
+                    <a th:href="@{/listjobs}" class="nav-link js-scroll-trigger" sec:authorize="hasAnyAuthority('RECRUITER')">Jobs</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/addorganization}" class="nav-link js-scroll-trigger" sec:authorize="hasAnyAuthority('EMPLOYER','RECRUITER')">Add Organization</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/getMyJobs}" class="nav-link js-scroll-trigger" sec:authorize="hasAuthority('APPLICANT')">Suggested Jobs</a>
                 </li>
 
                 <li class="nav-item">

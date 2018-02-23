@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.HashSet;
 
 public interface JobRepository extends CrudRepository<AppJob,Long>{
-    HashSet<AppJob> findAppJobsByJobSkillsIn(Iterable<Skill> skillList);
+    HashSet<AppJob> findAppJobsByJobSkillsIn(HashSet <Skill> mySkills);
 }

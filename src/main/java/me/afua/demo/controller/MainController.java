@@ -296,6 +296,7 @@ public class MainController {
     public String addJob(Model model)
     {
 
+        model.addAttribute("organizations",organizationRepository.findAll());
         model.addAttribute("newjob",new AppJob());
         return "addjob";
     }
@@ -363,6 +364,7 @@ public class MainController {
     {
         HashSet <Skill> mySkills = new HashSet(userRepository.findAppUserByUsername(auth.getName()).getMySkills());
         HashSet <AppJob> matchingJobs = jobRepository.findAppJobsByJobSkillsIn(mySkills);
+
         System.out.println(matchingJobs.toString());
         model.addAttribute("joblist",matchingJobs);
         return "viewsuggestedjobs";

@@ -7,6 +7,7 @@
 <body>
     <form th:action="@{/saveskilltojob}" th:object="${newjob}" method="post">
         <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{jobOrg}">
         <input type="text" th:field="*{jobTitle}">
         <input type="text" th:field="*{jobSkills}">
         <div th:each="eachSkill:${skillList}">
