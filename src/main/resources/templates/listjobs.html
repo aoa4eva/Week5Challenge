@@ -13,7 +13,8 @@
          <header th:replace="fragments/fragments::pageheader"></header>
     </span>
 
-    <span sec:authorize="hasAnyAuthority('EMPLOYER','RECRUITER')">
+    <!--<span sec:authorize="hasAnyAuthority('EMPLOYER','RECRUITER')">-->
+    <span sec:authorize="isAuthenticated()">
         <section>
             <div class="container">
                 <div class="row">

@@ -10,10 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 @Controller
 public class MainController {
@@ -303,6 +306,7 @@ public class MainController {
     @PostMapping("/addjob")
     public String saveJob(@Valid @ModelAttribute("newjob") AppJob job, BindingResult result, Model model)
     {
+        System.out.println(result.toString());
         if(result.hasErrors())
         {
             return "addjob";
@@ -320,6 +324,46 @@ public class MainController {
     }
 
 
+    @GetMapping("/searchskills")
+    public String searchSkillForm(HttpServletRequest request, Model model)
+    {
+        //Show the search skills form. You should be able to add a job id to the request parameters
+        //so that you can add skills for a particular job
+
+        String jobid = request.getParameter("jobid");
+        if(jobid!=null)
+            model.addAttribute("jobid",jobid);
+        model.addAttribute("searchlist",skillRepository.findAll());
+        return "searchskills";
+    }
+
+    @PostMapping("/searchskills")
+    public String showSearchSkills(HttpServletRequest request, Model model)
+    {
+        Iterable<Skill> searchlistresults=null;
+        String search = request.getParameter("skillsearch");
+        if(search!=null) {
+             searchlistresults= skillRepository.findSkillBySkillNameContainingIgnoreCase(search);
+        }
+
+        if(searchlistresults==null)
+        {
+            model.addAttribute("displaymsg","Unable to find matching skills");
+            searchlistresults = skillRepository.findAll();
+        }
+
+        model.addAttribute("searchlist",searchlistresults);
+        return "searchskills";
+    }
+
+    @GetMapping("/addskilltojob")
+    public @ResponseBody  String addSkilltoJob(HttpServletRequest request)
+    {
+        String jobid = request.getParameter("jobid");
+        String skillid = request.getParameter("skillid");
+        System.out.println("Job id:"+jobid+" Skill id:"+skillid);
+        return "Skill  added to job";
+    }
 
 
 }

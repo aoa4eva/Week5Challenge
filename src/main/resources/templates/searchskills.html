@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.tymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+    <th:block th:replace="fragments/fragments::agencyhead">
+    </th:block>
+</head>
+
+<body id="page-top">
+
+    <nav th:replace="fragments/fragments::rrnav"></nav>
+    <span sec:authorize="isAnonymous()">
+         <header th:replace="fragments/fragments::pageheader"></header>
+    </span>
+
+    <!--<span sec:authorize="hasAnyAuthority('EMPLOYER','RECRUITER')">-->
+        <!--<section>-->
+            <!--<div class="container">-->
+                <!--<div class="row">-->
+                    <!--<div class="col-md-6">-->
+                    <!--<h1>Jobs</h1>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-6">-->
+                        <!--<h4 class="pull-right"><a th:href="@{/profile}">Jobs</a></h4>-->
+                    <!--</div>-->
+               <!--</div>-->
+               <!--<div th:replace="fragments/listfragments::jobs"></div>-->
+        <!--</section>-->
+    <!--</span>-->
+    <div class="container">
+            <section>
+                    <form th:action="@{/searchskills}" method="post">
+                        <input type="hidden" value="${jobid}">
+                        <input name="skillsearch" type="text" class="form-control" placeholder="Enter skill to search for"/>
+                    </form>
+                        <div th:text="${displaymsg}"></div>
+                        <table class="table table-striped">
+                            <thead>
+                                <th>Result</th>
+                                <th>Action</th>
+
+                            </thead>
+                            <tbody>
+                            <tr th:each="aResult:${searchlist}">
+                                <td th:text="${aResult.skillName}"></td>
+                                <form>
+                                 <td><a th:href="@{/addskilltojob?jobid='${jobid}'}">Add</td>
+                                </form>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+            </section>
+    </div>
+    <span th:replace="fragments/fragments::agencyjs"></span>
+</body>
+</html>

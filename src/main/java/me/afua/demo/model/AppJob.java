@@ -1,6 +1,8 @@
 package me.afua.demo.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class AppJob {
@@ -14,6 +16,13 @@ public class AppJob {
 
     @ManyToOne
     private Organization jobOrg;
+
+    @ManyToMany
+    private Set<Skill> jobSkills;
+
+    public AppJob() {
+        this.jobSkills = new HashSet<>();
+    }
 
     public long getId() {
         return id;
@@ -45,5 +54,18 @@ public class AppJob {
 
     public void setJobOrg(Organization jobOrg) {
         this.jobOrg = jobOrg;
+    }
+
+    public Set<Skill> getJobSkills() {
+        return jobSkills;
+    }
+
+    public void setJobSkills(Set<Skill> jobSkills) {
+        this.jobSkills = jobSkills;
+    }
+
+    public void addSkilltoJob(Skill aSkill)
+    {
+        this.jobSkills.add(aSkill);
     }
 }
