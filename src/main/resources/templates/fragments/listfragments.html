@@ -91,7 +91,6 @@
 
 <!--End of organizations list-->
 
-
 !--List Jobs-->
 <div th:fragment="jobs">
     <div class="row">
@@ -103,8 +102,8 @@
             <form th:action="@{/update/job}" th:method="post">
                 <td><button class="btn btn-default" name="id" th:value="${eachjob.id}">Update</button></td>
             </form>
-            <form th:action="@{/addskill/job}" th:method="post">
-                <td><button class="btn btn-default" name="id" th:value="${eachjob.id}">Add Skill</button></td>
+            <form th:action="@{/searchskills}" th:method="post">
+                <td><button class="btn btn-default" name="jobid" th:value="${eachjob.id}">Add Skill</button></td>
             </form>
         </tr>
     </table>

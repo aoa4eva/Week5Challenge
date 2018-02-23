@@ -29,23 +29,21 @@
     <!--</span>-->
     <div class="container">
             <section>
+                <div th:text="${displaymsg}"></div>
                     <form th:action="@{/searchskills}" method="post">
-                        <input type="hidden" value="${jobid}">
+                        <input type="hidden" name="jobid" value="${jobid}">
                         <input name="skillsearch" type="text" class="form-control" placeholder="Enter skill to search for"/>
                     </form>
-                        <div th:text="${displaymsg}"></div>
                         <table class="table table-striped">
                             <thead>
                                 <th>Result</th>
                                 <th>Action</th>
-
                             </thead>
                             <tbody>
                             <tr th:each="aResult:${searchlist}">
                                 <td th:text="${aResult.skillName}"></td>
-                                <form>
-                                 <td><a th:href="@{/addskilltojob?jobid='${jobid}'}">Add</td>
-                                </form>
+                                <td th:text="${jobid}"></td>
+                                <td>  <a th:href="@{/addskilltojob/(skillid=${aResult.id},jobid=${jobid})}">Add via URL</a></td>
                             </tr>
 
                             </tbody>

@@ -306,7 +306,6 @@ public class MainController {
     @PostMapping("/addjob")
     public String saveJob(@Valid @ModelAttribute("newjob") AppJob job, BindingResult result, Model model)
     {
-        System.out.println(result.toString());
         if(result.hasErrors())
         {
             return "addjob";
@@ -316,13 +315,21 @@ public class MainController {
         return "listjobs";
     }
 
+
     @PostMapping("/update/job")
     public String updateJob(HttpServletRequest request, Model model)
     {
-        model.addAttribute("newjob",organizationRepository.findOne(new Long(request.getParameter("id"))));
+        model.addAttribute("newjob",jobRepository.findOne(new Long(request.getParameter("id"))));
         return "addjob";
     }
 
+
+    @RequestMapping("/listjobs")
+    public String listJobs(Model model)
+    {
+        model.addAttribute("joblist",jobRepository.findAll());
+        return "listjobs";
+    }
 
     @GetMapping("/searchskills")
     public String searchSkillForm(HttpServletRequest request, Model model)
@@ -338,30 +345,40 @@ public class MainController {
     }
 
     @PostMapping("/searchskills")
-    public String showSearchSkills(HttpServletRequest request, Model model)
-    {
-        Iterable<Skill> searchlistresults=null;
+    public String showSearchSkills(HttpServletRequest request, Model model) {
+        Iterable<Skill> searchlistresults = null;
         String search = request.getParameter("skillsearch");
-        if(search!=null) {
-             searchlistresults= skillRepository.findSkillBySkillNameContainingIgnoreCase(search);
+        String jobid = request.getParameter("jobid");
+        System.out.println("Job ID:" + jobid);
+
+        if (search != null) {
+            searchlistresults = skillRepository.findSkillBySkillNameContainingIgnoreCase(search);
         }
 
-        if(searchlistresults==null)
-        {
-            model.addAttribute("displaymsg","Unable to find matching skills");
+        if (searchlistresults == null || jobid == null) {
             searchlistresults = skillRepository.findAll();
         }
+
+        if (searchlistresults == null && jobid != null)
+            model.addAttribute("displaymsg", "Unable to find matching skills");
+
+        if (jobid != null)
+        {
+            model.addAttribute("displaymsg", "Add skills to " + jobRepository.findOne(new Long(jobid)).getJobTitle());
+            model.addAttribute("jobid", jobid);
+        }
+
 
         model.addAttribute("searchlist",searchlistresults);
         return "searchskills";
     }
 
-    @GetMapping("/addskilltojob")
+    @RequestMapping("/addskilltojob")
     public @ResponseBody  String addSkilltoJob(HttpServletRequest request)
     {
         String jobid = request.getParameter("jobid");
         String skillid = request.getParameter("skillid");
-        System.out.println("Job id:"+jobid+" Skill id:"+skillid);
+        System.out.println("Job id from add skill to job:"+jobid+" Skill id:"+skillid);
         return "Skill  added to job";
     }
 
