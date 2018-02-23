@@ -2,10 +2,8 @@ package me.afua.demo.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Experience {
@@ -24,6 +22,9 @@ public class Experience {
     private String endDate;
 
     private String duties;
+
+    @ManyToMany(mappedBy="myExperience")
+    private Set<AppUser> people;
 
     public long getId() {
         return id;

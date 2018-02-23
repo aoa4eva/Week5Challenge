@@ -36,11 +36,8 @@ public class DataLoader implements CommandLineRunner {
         roleRepo.save(role);
 
         role = new AppRole();
-        role.setRoleName("ADMIN");
+        role.setRoleName("RECRUITER");
         roleRepo.save(role);
-
-
-
 
         //Add test data for users
 
@@ -54,6 +51,61 @@ public class DataLoader implements CommandLineRunner {
         user.addRole(roleRepo.findAppRoleByRoleName("APPLICANT"));
         userRepository.save(user);
 
+        Skill aSkill = new Skill();
+        aSkill.setProficiency("proficient");
+        aSkill.setSkillName("skill");
+        skillRepository.save(aSkill);
+        user.addSkill(aSkill);
+
+        aSkill = new Skill();
+        aSkill.setProficiency("very proficient");
+        aSkill.setSkillName("new skill");
+        skillRepository.save(aSkill);
+        user.addSkill(aSkill);
+
+        aSkill = new Skill();
+        aSkill.setProficiency("ever more proficient");
+        aSkill.setSkillName("newer skill");
+        skillRepository.save(aSkill);
+        user.addSkill(aSkill);
+
+        Education e = new Education();
+        e.setCourse("A course");
+        e.setInstitution("Institution");
+        e.setYear(2018);
+        educationRepository.save(e);
+        user.addEducation(e);
+
+
+        e = new Education();
+        e.setCourse("Another course");
+        e.setInstitution("Another Institution");
+        e.setYear(2018);
+        educationRepository.save(e);
+        user.addEducation(e);
+
+        Experience workexp = new Experience();
+        workexp.setDuties("Duty 1");
+        workexp.setOrganization("An organization");
+        workexp.setPosition("A Position");
+        experienceRepository.save(workexp);
+        user.addEducation(e);
+
+        workexp = new Experience();
+        workexp.setDuties("Duties...so many of them");
+        workexp.setOrganization("Another organization");
+        workexp.setPosition("Aother Position");
+        experienceRepository.save(workexp);
+        user.addExperience(workexp);
+
+        workexp = new Experience();
+        workexp.setDuties("So many more duties. Real job growth.");
+        workexp.setOrganization("Yet another organization");
+        workexp.setPosition("Yet another Position");
+        experienceRepository.save(workexp);
+        user.addExperience(workexp);
+        userRepository.save(user);
+
 
         user = new AppUser();
         user.setUsername("employer");
@@ -63,49 +115,12 @@ public class DataLoader implements CommandLineRunner {
         user.addRole(roleRepo.findAppRoleByRoleName("EMPLOYER"));
         userRepository.save(user);
 
-        Skill aSkill = new Skill();
-        aSkill.setProficiency("proficient");
-        aSkill.setSkillName("skill");
-        skillRepository.save(aSkill);
 
-        aSkill = new Skill();
-        aSkill.setProficiency("very proficient");
-        aSkill.setSkillName("new skill");
-        skillRepository.save(aSkill);
 
-        aSkill = new Skill();
-        aSkill.setProficiency("ever more proficient");
-        aSkill.setSkillName("newer skill");
-        skillRepository.save(aSkill);
 
-        Education e = new Education();
-        e.setCourse("A course");
-        e.setInstitution("Institution");
-        e.setYear(2018);
-        educationRepository.save(e);
 
-        e = new Education();
-        e.setCourse("Another course");
-        e.setInstitution("Another Institution");
-        e.setYear(2018);
-        educationRepository.save(e);
 
-        Experience workexp = new Experience();
-        workexp.setDuties("Duty 1");
-        workexp.setOrganization("An organization");
-        workexp.setPosition("A Position");
-        experienceRepository.save(workexp);
 
-        workexp = new Experience();
-        workexp.setDuties("Duties...so many of them");
-        workexp.setOrganization("Another organization");
-        workexp.setPosition("Aother Position");
-        experienceRepository.save(workexp);
 
-        workexp = new Experience();
-        workexp.setDuties("So many more duties. Real job growth.");
-        workexp.setOrganization("Yet another organization");
-        workexp.setPosition("Yet another Position");
-        experienceRepository.save(workexp);
     }
 }

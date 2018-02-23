@@ -1,5 +1,6 @@
 package me.afua.demo.controller;
 
+import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import me.afua.demo.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -10,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -30,19 +32,34 @@ public class MainController {
     @Autowired
     ExperienceRepository experienceRepository;
 
+    @Autowired
+    OrganizationRepository organizationRepository;
+
+    @Autowired
+    JobRepository jobRepository;
+
     @RequestMapping("/")
     public String showIndex(Model model, Authentication auth)
     {
-        model.addAttribute("educationlist",educationRepository.findAll());
-        model.addAttribute("skilllist",skillRepository.findAll());
-        model.addAttribute("experiencelist",experienceRepository.findAll());
         if(auth!=null)
         {
-            System.out.println(auth.getName()+" authorities:"+auth.getAuthorities().toString());
-            model.addAttribute("person",userRepository.findAppUserByUsername(auth.getName()));
+            AppUser thisUser = userRepository.findAppUserByUsername(auth.getName());
+            if(thisUser!=null) {
+                model.addAttribute("educationlist", thisUser.getMyEdus());
+                model.addAttribute("skilllist", thisUser.getMySkills());
+                model.addAttribute("experiencelist", thisUser.getMyExperiences());
+                System.out.println(auth.getName() + " authorities:" + auth.getAuthorities().toString());
+                model.addAttribute("person", userRepository.findAppUserByUsername(auth.getName()));
+            }
         }
         else
-            model.addAttribute("inMemory",true);
+        {
+            if(auth!=null)
+                model.addAttribute("inMemory",true);
+            else
+                model.addAttribute("inMemory",false);
+        }
+
         return "index";
     }
 
@@ -59,6 +76,9 @@ public class MainController {
     @RequestMapping("/showresume")
     public String showResume(Model model,Authentication auth)
     {
+        //This shows a list of all items regardless of current user. Compare with the default route to see how to customise the view
+        //for the currently logged in user
+
         model.addAttribute("educationlist",educationRepository.findAll());
         model.addAttribute("skilllist",skillRepository.findAll());
         model.addAttribute("experiencelist",experienceRepository.findAll());
@@ -100,7 +120,7 @@ public class MainController {
         else
             user.addRole(roleRepository.findAppRoleByRoleName("APPLICANT"));
         userRepository.save(user);
-        return "redirect:/loggedin";
+        return "redirect:/";
     }
 
     @GetMapping("/profile")
@@ -124,7 +144,7 @@ public class MainController {
             return "profile";
         }
         userRepository.save(user);
-        return "redirect:/loggedin";
+        return "redirect:/";
     }
 
     //Replicate the profile code for Skill
@@ -136,20 +156,23 @@ public class MainController {
     }
 
     @PostMapping("/skill")
-    public String saveSkill(@Valid @ModelAttribute("aSkill") Skill skill, BindingResult result)
+    public String saveSkill(@Valid @ModelAttribute("aSkill") Skill skill, BindingResult result, Authentication auth)
     {
         if(result.hasErrors())
         {
             return "addskill";
         }
         skillRepository.save(skill);
-        return "redirect:/loggedin";
+        AppUser currentUser =  userRepository.findAppUserByUsername(auth.getName());
+        currentUser.addSkill(skill);
+        userRepository.save(currentUser);
+        return "redirect:/";
     }
 
     @GetMapping("/listskills")
-    public @ResponseBody String listSkills()
+    public @ResponseBody String listSkills(Authentication auth)
     {
-        return skillRepository.findAll().toString();
+        return userRepository.findAppUserByUsername(auth.getName()).getMySkills().toString();
     }
 
     //Replicate the profile code for Skill
@@ -162,14 +185,18 @@ public class MainController {
 
     //Reproduce the Skill code for education
     @PostMapping("/education")
-    public String saveEducation(@Valid @ModelAttribute("educationItem") Education education, BindingResult result)
+    public String saveEducation(@Valid @ModelAttribute("educationItem") Education education, BindingResult result, Authentication auth)
     {
         if(result.hasErrors())
         {
             return "addeducation";
         }
         educationRepository.save(education);
-        return "redirect:/loggedin";
+        AppUser currentUser =  userRepository.findAppUserByUsername(auth.getName());
+        currentUser.addEducation(education);
+        userRepository.save(currentUser);
+
+        return "redirect:/";
     }
 
     @GetMapping("/listeducation")
@@ -188,14 +215,19 @@ public class MainController {
     }
 
     @PostMapping("/experience")
-    public String saveExperience(@Valid @ModelAttribute("workexperience") Experience experience, BindingResult result)
+    public String saveExperience(@Valid @ModelAttribute("workexperience") Experience experience, BindingResult result, Authentication auth)
     {
         if(result.hasErrors())
         {
             return "addexperience";
         }
         experienceRepository.save(experience);
-        return "redirect:/loggedin";
+
+        AppUser currentUser =  userRepository.findAppUserByUsername(auth.getName());
+        currentUser.addExperience(experience);
+        userRepository.save(currentUser);
+
+        return "redirect:/";
     }
 
     @GetMapping("/listexperience")
@@ -226,12 +258,66 @@ public class MainController {
         return "addskill";
     }
 
+    @PostMapping("/update/organization")
+    public String updateOrganization(HttpServletRequest request, Model model)
+    {
+        model.addAttribute("neworg",organizationRepository.findOne(new Long(request.getParameter("id"))));
+        return "addorganization";
+    }
+
     @RequestMapping("/references")
     public String showReferences()
     {
         return "references";
     }
 
+    @GetMapping("/addorganization")
+    public String addOrg(Model model)
+    {
+
+        model.addAttribute("neworg",new Organization());
+        return "addorganization";
+    }
+
+    @PostMapping("/addorganization")
+    public String saveOrg(@Valid @ModelAttribute("neworg") Organization org, BindingResult result, Model model)
+    {
+        if(result.hasErrors())
+        {
+            return "addorganization";
+        }
+        organizationRepository.save(org);
+        model.addAttribute("orglist",organizationRepository.findAll());
+        return "listorganizations";
+    }
+
+
+    @GetMapping("/addjob")
+    public String addJob(Model model)
+    {
+
+        model.addAttribute("newjob",new AppJob());
+        return "addjob";
+    }
+
+    @PostMapping("/addjob")
+    public String saveJob(@Valid @ModelAttribute("newjob") AppJob job, BindingResult result, Model model)
+    {
+        if(result.hasErrors())
+        {
+            return "addjob";
+        }
+        jobRepository.save(job);
+        model.addAttribute("joblist",jobRepository.findAll());
+        return "listjobs";
+    }
+
+    @PostMapping("/update/job")
+    public String updateJob(HttpServletRequest request, Model model)
+    {
+        model.addAttribute("newjob",organizationRepository.findOne(new Long(request.getParameter("id"))));
+        return "addjob";
+    }
 
 
 

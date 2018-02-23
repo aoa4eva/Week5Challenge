@@ -11,7 +11,6 @@ import java.util.Set;
 
 @Entity
 public class AppUser {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -41,8 +40,20 @@ public class AppUser {
     //This needs to be instantiated in the construtor so you can use it to add and remove individual roles
     private Set<AppRole> roles;
 
+    @ManyToMany
+    private Set <Education> myEdus;
+
+    @ManyToMany
+    private Set <Experience> myExperience;
+
+    @ManyToMany
+    private Set <Skill> mySkills;
+
     public AppUser() {
         this.roles = new HashSet<>();
+        this.myEdus = new HashSet<>();
+        this.myExperience = new HashSet<>();
+        this.mySkills = new HashSet<>();
     }
 
     public long getId() {
@@ -128,5 +139,44 @@ public class AppUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void addEducation(Education edu)
+    {
+        this.myEdus.add(edu);
+    }
+
+    public void addSkill(Skill aSkill)
+    {
+        this.mySkills.add(aSkill);
+    }
+
+    public void addExperience(Experience exp)
+    {
+        this.myExperience.add(exp);
+    }
+
+    public Set<Education> getMyEdus() {
+        return myEdus;
+    }
+
+    public void setMyEdus(Set<Education> myEdus) {
+        this.myEdus = myEdus;
+    }
+
+    public Set<Experience> getMyExperiences() {
+        return myExperience;
+    }
+
+    public void setMyExperiences(Set<Experience> myExperiences) {
+        this.myExperience = myExperiences;
+    }
+
+    public Set<Skill> getMySkills() {
+        return mySkills;
+    }
+
+    public void setMySkills(Set<Skill> mySkills) {
+        this.mySkills = mySkills;
     }
 }

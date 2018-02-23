@@ -33,10 +33,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 //.formLogin().successForwardUrl("/loggedin")
                 .and()
-
                 //Displays 'you have been logged out' message on login form when a user logs out (default login form). Change this
                 //to logout?logout if you are using a custom form.
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll().logoutSuccessUrl("/");
+
+        //For H2:
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
         }
 
     @Override

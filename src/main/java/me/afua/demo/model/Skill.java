@@ -2,10 +2,8 @@ package me.afua.demo.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Skill {
@@ -18,6 +16,9 @@ public class Skill {
 
     @NotEmpty
     private String proficiency;
+
+    @ManyToMany(mappedBy="mySkills")
+    private Set<AppUser> people;
 
     public long getId() {
         return id;

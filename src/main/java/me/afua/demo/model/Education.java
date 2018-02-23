@@ -3,10 +3,8 @@ package me.afua.demo.model;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Education {
@@ -21,6 +19,9 @@ public class Education {
 
     @Range(min=1900,max=9999)
     private int year;
+
+    @ManyToMany(mappedBy="myEdus")
+    private Set<AppUser> people;
 
     public long getId() {
         return id;

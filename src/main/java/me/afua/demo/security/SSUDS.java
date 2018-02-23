@@ -47,6 +47,8 @@ public class SSUDS implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Set <GrantedAuthority> userAuthorities = new HashSet<>();
         AppUser thisUser = userRepo.findAppUserByUsername(username);
+        if(thisUser==null)
+            throw new UsernameNotFoundException("Invalid username or password");
         return new User(thisUser.getUsername(),thisUser.getPassword(),grantedAuthorities(thisUser));
     }
 
