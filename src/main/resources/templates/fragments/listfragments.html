@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.tymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.tymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8"/>
     <title>Title</title>
@@ -88,9 +87,7 @@
         </tr>
     </table>
 </div>
-
 <!--End of organizations list-->
-
 <!--List Jobs-->
 <div th:fragment="jobs">
     <div class="row">
@@ -113,8 +110,6 @@
         </tr>
     </table>
 </div>
-
-
 <!--List Jobs with tags-->
 <div th:fragment="jobswithskills">
     <div class="row">
@@ -133,13 +128,12 @@
             </form>
             <td th:if="${eachjob.jobSkills}!=null">
                 <span th:each = "eachSkill:${eachjob.jobSkills}">
-                    <button class="btn btn-sm" th:text="${eachSkill.skillName}"></button>
+                    <button class="btn btn-sm btn-close" th:text="${eachSkill.skillName}"></button>
                 </span>
             </td>
         </tr>
     </table>
 </div>
-
 <!--End of organizations list-->
 
 </body>

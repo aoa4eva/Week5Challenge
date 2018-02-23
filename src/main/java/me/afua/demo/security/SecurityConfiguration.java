@@ -21,14 +21,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsServiceBean() throws Exception {
         return new SSUDS(userRepository);
     }
-
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                 .antMatchers("/","/register","/css/**","/vendor/**","/js/**","/img/**","/addjob").permitAll()
                 .antMatchers("/listjobs","/addjob").hasAuthority("RECRUITER")
-                .antMatchers("/references").hasAuthority("APPLICANT")
+                .antMatchers("/references","/profile").hasAuthority("APPLICANT")
+                .antMatchers("/").hasAuthority("EMPLOYER")
+
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

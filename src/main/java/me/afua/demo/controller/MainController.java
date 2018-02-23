@@ -8,9 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -47,6 +50,11 @@ public class MainController {
                 model.addAttribute("experiencelist", thisUser.getMyExperience());
                 System.out.println(auth.getName() + " authorities:" + auth.getAuthorities().toString());
                 model.addAttribute("person", userRepository.findAppUserByUsername(auth.getName()));
+
+                // TODO: 2/23/2018
+                //If(thisUser.hasRole("RECRUITER"))
+                /* Show the LIST JOBS page, otherwise show the index page.*/
+
             }
         }
         else
@@ -111,7 +119,6 @@ public class MainController {
             return "register";
         }
 
-
         if(request.getParameter("isEmployer")!=null)
             user.addRole(roleRepository.findAppRoleByRoleName("EMPLOYER"));
         else
@@ -155,7 +162,6 @@ public class MainController {
     @PostMapping("/skill")
     public String saveSkill(@Valid @ModelAttribute("aSkill") Skill skill, BindingResult result, Authentication auth)
     {
-
         if(result.hasErrors())
         {
             return "addskill";
@@ -334,7 +340,10 @@ public class MainController {
     {
         String jobid = request.getParameter("jobid");
         model.addAttribute("newjob",jobRepository.findOne(new Long(jobid)));
+
+        //Make skills disappear from add form when they are already included (Set already makes it impossible to add multiple)
         model.addAttribute("skillList",skillRepository.findAll());
+
         return "addskilltojob";
     }
 

@@ -5,7 +5,6 @@
     <title>Title</title>
 </head>
 <body>
-
 <!-- Theme header-->
 <head th:fragment="defaulthead">
     <meta charset="UTF-8"/>
@@ -15,8 +14,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!--Theme header-->
 </head>
-
-
 <!-- Theme header-->
 <th:block th:fragment="agencyhead">
 
@@ -36,18 +33,13 @@
         <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
-
         <!-- Custom styles for this template -->
         <link href="/css/agency.min.css" rel="stylesheet">
-
 </th:block>
-    <!--Theme header-->
-
+<!--Theme header-->
 <!-- Start of navigation bar-->
-
 <nav th:fragment="rrnav" class="navbar navbar-expand-lg navbar-dark fixed-top" th:classappend="${#authorization.expression('isAuthenticated()')}?'mainNavDark':''"id="mainNav">
     <div class="container">
-
         <a class="navbar-brand js-scroll-trigger" href="/">
             <img src="/img/logos/rrlogo.png" class="rrimg" alt="">
             Robo Resume
@@ -58,9 +50,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav text-uppercase ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" sec:authorize="hasAuthority('APPLICANT')" href="#about">Add Resume Sections</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" sec:authorize="hasAuthority('APPLICANT')" th:href="@{/references}">References</a>
                 </li>
