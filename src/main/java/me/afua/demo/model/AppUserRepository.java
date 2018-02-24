@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface AppUserRepository extends CrudRepository<AppUser, Long> {
     AppUser findAppUserByUsername(String username);
-    AppUser findAppUserByRolesIn(List<AppRole> roles);
+    AppUser findAppUserByRolesInAndUsername(List<AppRole> roles,String username);
 }

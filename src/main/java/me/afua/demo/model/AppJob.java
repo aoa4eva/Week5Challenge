@@ -69,7 +69,4 @@ public class AppJob {
         this.jobSkills.add(aSkill);
     }
 
-
-
-
 }
