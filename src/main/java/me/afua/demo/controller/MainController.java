@@ -1,6 +1,7 @@
 package me.afua.demo.controller;
 
 import me.afua.demo.model.*;
+import me.afua.demo.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,14 @@ import java.util.List;
 
 @Controller
 public class MainController {
+
+    /** Added a resume service to remove code from the controller.
+     * There is no need create a separate
+     * class for the resume, this is
+     * what the service is supposed to take care of. */
+    @Autowired
+    ResumeService resumeService;
+
     @Autowired
     AppRoleRepository roleRepository;
 
@@ -43,17 +52,22 @@ public class MainController {
     {
         if(auth!=null)
         {
-            AppUser thisUser = userRepository.findAppUserByUsername(auth.getName());
+            //Performs the search method in the user repository
+            AppUser thisUser = resumeService.findUser(auth.getName());
+
             if(thisUser!=null) {
                 model.addAttribute("educationlist", thisUser.getMyEdus());
                 model.addAttribute("skilllist", thisUser.getMySkills());
                 model.addAttribute("experiencelist", thisUser.getMyExperience());
                 System.out.println(auth.getName() + " authorities:" + auth.getAuthorities().toString());
-                model.addAttribute("person", userRepository.findAppUserByUsername(auth.getName()));
+                model.addAttribute("person", thisUser.getUsername());
 
-                // TODO: 2/23/2018
-                //If(thisUser.hasRole("RECRUITER"))
-                /* Show the LIST JOBS page, otherwise show the index page.*/
+                /** Redirect to the job list if the person is a recruiter. It doesn't mater what other roles the person has.  */
+                //Included a method in the resume service to perform the search below
+                if(resumeService.isARecruiter(thisUser))
+                {
+                    return "redirect:/listjobs";
+                }
 
             }
         }
