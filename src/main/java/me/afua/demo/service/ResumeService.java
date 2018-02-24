@@ -4,6 +4,7 @@ import me.afua.demo.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -77,8 +78,9 @@ public class ResumeService {
     }
 
     /*Use current user's authentication to a user object */
-    public AppUser getCurrentUser() {
-        return currentUser;
+    public AppUser getCurrentUser(Authentication auth) {
+        return userRepository.findAppUserByUsername(auth.getName());
+
     }
 
     public void setCurrentUser(Authentication auth) {
@@ -93,8 +95,32 @@ public class ResumeService {
         {
             theseSkillNames.add(eachSkill.getSkillName());
         }
-        System.out.println("Selected kills:"+theseSkillNames.toString());
+        System.out.println("User's kills:"+theseSkillNames.toString());
         return theseSkillNames;
+    }
 
+    public HashSet <Skill> getSkillsFromNames(ArrayList <String> theseSkills)
+    {
+        HashSet <Skill> theseSkillObjects = new HashSet<>();
+        for(String eachSkill : theseSkills)
+        {
+            for(Skill eachSkillObject: skillRepository.findAllBySkillNameContainingIgnoreCase(eachSkill))
+            {
+                theseSkillObjects.add(eachSkillObject);
+            }
+        }
+        System.out.println("Skills from names:"+theseSkillObjects.toString());
+        return theseSkillObjects;
+    }
+
+    public HashSet <AppJob> findMyJobs(AppUser user)
+    {
+        //Matches when a user puts a more general term than the job requirement.
+        // TODO: 2/24/2018 Separate skill table so that multiple users can add the same skill and different proficiency to their resume 
+        ArrayList <String> mySkills = getSkillNames(user.getMySkills());
+        ArrayList <String> jobSkillNames = new ArrayList<>();
+        HashSet <Skill> mySkillObjects = getSkillsFromNames(mySkills);
+        System.out.println("My skills:"+mySkillObjects);
+        return jobRepository.findAppJobsByJobSkillsIn(mySkillObjects);
     }
 }

@@ -64,7 +64,7 @@ public class MainController {
 
                 /** Redirect to the job list if the person is a recruiter. It doesn't mater what other roles the person has.  */
                 //Included a method in the resume service to perform the search below
-                resumeService.getSkillNames(thisUser.getMySkills());
+
                 System.out.println("This person is a recruiter:"+resumeService.isARecruiter(thisUser));
 
                 if(resumeService.isARecruiter(thisUser))
@@ -388,8 +388,8 @@ public class MainController {
     @RequestMapping("/getMyJobs")
     public String getJobsThatApply(Authentication auth, Model model)
     {
-        HashSet <Skill> mySkills = new HashSet(userRepository.findAppUserByUsername(auth.getName()).getMySkills());
-        HashSet <AppJob> matchingJobs = jobRepository.findAppJobsByJobSkillsIn(mySkills);
+        //Method to search for matching jobs - from the resume service
+        HashSet <AppJob> matchingJobs = resumeService.findMyJobs(resumeService.getCurrentUser(auth));
 
         System.out.println(matchingJobs.toString());
         model.addAttribute("joblist",matchingJobs);
