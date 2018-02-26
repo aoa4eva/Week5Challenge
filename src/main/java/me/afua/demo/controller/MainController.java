@@ -124,6 +124,8 @@ public class MainController {
     @GetMapping("/register")
     public String registerUser(Model model)
     {
+        ArrayList<String> registerOptions = new ArrayList<>();
+        model.addAttribute("registerAs",roleRepository.findAll());
         model.addAttribute("newuser",new AppUser());
         return "register";
     }

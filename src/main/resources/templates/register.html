@@ -19,17 +19,19 @@
                 <label for="password">Password</label>
                 <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
                 <input type="text" class="form-control" th:field="*{password}">
-                <div>
-                 <input type="checkbox" name="isEmployer" value="EMPLOYER">Employer
-                </div>
+
+                    <!--Register new user based on existing role (AUTOMATICALLY CHANGES WHEN A NEW ROLE IS ADDED)-->
+                    <div>
+                        <span th:each="eachOption:${registerAs}">
+                            <input type="checkbox" th:field="*{roles}" th:value="${eachOption.id}">
+                            <label th:for="${#ids.prev('roles')}" th:text="${eachOption.roleName}"></label>
+                        </span>
+                    </div>
 
                     <button type="submit" class="btn btn-default">Add</button>
-
                 </form>
             </section>
-
         </div>
-
         <span th:replace="fragments/fragments::bootstrap4js"></span>
 </body>
 </html>
