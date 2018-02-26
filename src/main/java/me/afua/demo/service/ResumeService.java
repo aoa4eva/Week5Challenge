@@ -123,4 +123,6 @@ public class ResumeService {
         System.out.println("My skills:"+mySkillObjects);
         return jobRepository.findAppJobsByJobSkillsIn(mySkillObjects);
     }
+    
+    
 }
